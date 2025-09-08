@@ -19,8 +19,6 @@ st.set_page_config(page_title="Vlozy - Simplifies Data Extraction",
                    layout="wide",
                    page_icon="favicon.png")
 #reader = easyocr.Reader(['en'])
-reader = easyocr.Reader(['en'], download_enabled=True, model_storage_directory="~/.EasyOCR")
-zone_data_file = "zones_data.json"
 
 # ---------- WEB3 STYLING ----------
 st.markdown("""
@@ -146,5 +144,6 @@ st.markdown(
     "<h1 style='text-align: center;'>🤖 Vlozy: Automate & Extract Data</h1>",
     unsafe_allow_html=True
 )
+
 
 
