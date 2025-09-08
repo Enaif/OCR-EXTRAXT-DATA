@@ -1,3 +1,5 @@
+import os 
+os.makedirs("static", exist_ok=True)
 import streamlit as st 
 from streamlit_drawable_canvas import st_canvas
 import fitz
@@ -389,3 +391,4 @@ if uploaded_file and not zones_from_file:
 
         if batch_files:
             process_batch()
+
