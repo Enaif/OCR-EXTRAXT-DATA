@@ -6,4 +6,5 @@ Pillow==11.3.0
 streamlit==1.40.0
 streamlit_drawable_canvas==0.9.3
 streamlit_lottie==0.0.5
+frontend==0.0.3
 
