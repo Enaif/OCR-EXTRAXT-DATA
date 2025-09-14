@@ -50,7 +50,7 @@ with st.container():
             FILE PROTECTOR
         </h1>
         """, unsafe_allow_html=True)
-        uploaded_file = st.file_uploader("", type="pdf")
+        uploaded_file = st.file_uploader("PDF Upload", type="pdf", label_visibility="collapsed")
     with col3: 
         pass
 
