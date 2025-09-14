@@ -1,0 +1,7 @@
+pypdf==6.0.0
+Streamlit==1.40.0
+reportlab==4.4.3
+charset-normalizer==3.4.3 
+pillow==11.3.0
+streamlit-lottie==0.0.5
+PyMuPDF==1.26.3
