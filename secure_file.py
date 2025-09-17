@@ -60,7 +60,7 @@ if uploaded_file:
     
     # === Watermark ===
     with tab1:
-        add_watermark = st.checkbox("Enable watermark to authenticate your document")
+        add_watermark = st.checkbox("Enable watermark to authenticate your document.")
         watermark_text, watermark_color, watermark_size, watermark_angle, watermark_alpha, apply_pages = "", "", 0, 0, 0, ""
         if add_watermark:
             watermark_text = st.text_input("Watermark Text", value="CONFIDENTIAL")
@@ -72,14 +72,14 @@ if uploaded_file:
     
     # === Password ===
     with tab2:
-        add_password = st.checkbox("Enable password protection")
+        add_password = st.checkbox("Enable password protection.")
         password = ""
         if add_password:
             password = st.text_input("PDF Password", type="password")
     
     # === Restriction ===
     with tab3:
-        restrict_copy = st.checkbox("Disable copy to protect the content of your document")
+        restrict_copy = st.checkbox("Enable this option to prevent copying, printing, or downloading your content.")
     
     # === Main Button ===
     if st.button("🔒 Secure PDF", use_container_width=True):
@@ -127,21 +127,30 @@ if uploaded_file:
                 writer.add_page(page)
 
             #--- Protection PDF ---
+            # --- Protection PDF ---
             if add_password or restrict_copy:
                 if add_password and not password:
                     st.error("⚠️ You must enter a password.")
                     st.stop()
-                permissions = 0
-                if not restrict_copy:
-                    permissions |= constants.UserAccessPermissions.PRINT
-                    permissions |= constants.UserAccessPermissions.MODIFY
-                    permissions |= constants.UserAccessPermissions.EXTRACT_TEXT_AND_GRAPHICS
+            
+                if restrict_copy:
+                    # AUCUN droit : interdit copie, impression, modification
+                    permissions = 0
+                else:
+                    # Droits par défaut (autoriser impression + modification + extraction)
+                    permissions = (
+                        constants.UserAccessPermissions.PRINT
+                        | constants.UserAccessPermissions.MODIFY
+                        | constants.UserAccessPermissions.EXTRACT_TEXT_AND_GRAPHICS
+                    )
+            
                 writer.encrypt(
                     user_password=password if password else "",
                     owner_password=password if password else None,
                     use_128bit=True,
                     permissions_flag=permissions
-                 )
+                )
+
             # --- Protection PDF ---
 
             output_buffer = io.BytesIO()
@@ -158,7 +167,9 @@ if uploaded_file:
             )
 
             # --- Nettoyage complet ---
-            del reader, writer, watermark, output_buffer
+            del reader, writer, output_buffer
+            if add_watermark:
+                del watermark
             gc.collect()  # Force libération mémoire
 
         except Exception as e:
